@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Elaxklearn Chatbot</title>
+  <style>
+    #chat-container {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 300px;
+      height: 400px;
+      background-color: #f9f9f9;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #ccc;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+    }
+    #chat-header {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px;
+      font-size: 16px;
+      font-weight: bold;
+    }
+    #chat-messages {
+      flex-grow: 1;
+      padding: 10px;
+      overflow-y: auto;
+      font-size: 14px;
+    }
+    .message {
+      margin: 5px 0;
+    }
+    .user { text-align: right; color: #333; }
+    .bot { text-align: left; color: #4CAF50; }
+    #chat-input {
+      display: flex;
+      border-top: 1px solid #ccc;
+    }
+    #chat-input input {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      outline: none;
+    }
+    #chat-input button {
+      padding: 10px;
+      border: none;
+      background-color: #4CAF50;
+      color: white;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<div id="chat-container">
+  <div id="chat-header">Elaxklearn Bot</div>
+  <div id="chat-messages"></div>
+  <div id="chat-input">
+    <input type="text" id="userInput" placeholder="Type your message..." />
+    <button onclick="sendMessage()">Send</button>
+  </div>
+</div>
+
+<script>
+  const messages = document.getElementById('chat-messages');
+
+  function sendMessage() {
+    const input = document.getElementById('userInput');
+    const userText = input.value.trim();
+    if (userText === '') return;
+
+    appendMessage(userText, 'user');
+    respondTo(userText.toLowerCase());
+    input.value = '';
+  }
+
+  function appendMessage(text, type) {
+    const msg = document.createElement('div');
+    msg.classList.add('message', type);
+    msg.innerText = text;
+    messages.appendChild(msg);
+    messages.scrollTop = messages.scrollHeight;
+  }
+
+  function respondTo(input) {
+    let response = "I'm not sure how to answer that.";
+
+    if (input.includes('course')) response = "We offer Spoken English, Web Development & Job Readiness courses.";
+    else if (input.includes('fee')) response = "Please visit our website or contact +91 9053555591 for fee details.";
+    else if (input.includes('hello') || input.includes('hi')) response = "Hello! How can I help you today?";
+    else if (input.includes('location')) response = "We are available online and in select cities.";
+    else if (input.includes('contact')) response = "You can reach us at +91 9053555591 or www.elaxklearn.com.";
+
+    appendMessage(response, 'bot');
+  }
+</script>
+
+</body>
+</html>
+

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Elaxklearn Chatbot</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Hidden Chat Container */
+        /* Floating Chat Icon */
+        #chat-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: #4CAF50;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 28px;
+            cursor: pointer;
+            z-index: 9999;
+        }
+
+        /* Chat Window Popup */
+        #chat-widget {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 300px;
+            height: 400px;
+            background: #fff;
+            box-shadow: 0 0 10px #ccc;
+            border-radius: 10px;
+            display: none;
+            /* initially hidden */
+            flex-direction: column;
+            z-index: 9998;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+
+        #chat-header {
+            background: #4CAF50;
+            color: white;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+        }
+
+        #chat-messages {
+            flex: 1;
+            padding: 10px;
+            overflow-y: auto;
+            font-size: 14px;
+        }
+
+        #chat-input {
+            display: flex;
+            border-top: 1px solid #ccc;
+        }
+
+        #chat-input input {
+            flex: 1;
+            border: none;
+            padding: 10px;
+        }
+
+        #chat-input button {
+            border: none;
+            background: #4CAF50;
+            color: white;
+            padding: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Chat Popup -->
+    <div id="chat-widget">
+        <div id="chat-header">
+            Elaxklearn Bot
+            <span id="chat-close" onclick="toggleChat()">×</span>
+        </div>
+        <div id="chat-messages"></div>
+        <div id="chat-input">
+            <input type="text" id="userInput" placeholder="Type your message..." />
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <!-- Floating Icon Button -->
+    <div id="chat-icon"><i class="fas fa-comments"></i></div>
+
+    <script>
+        function toggleChat() {
+            const chat = document.getElementById('chat-widget');
+            const icon = document.getElementById('chat-toggle');
+            const isOpen = chat.style.display === 'flex';
+
+            chat.style.display = isOpen ? 'none' : 'flex';
+            icon.style.display = isOpen ? 'flex' : 'none';
+
+            if (!isOpen) {
+                document.getElementById('chat-messages').innerHTML = ''; // optional: clear messages
+                document.getElementById('userInput').value = '';
+            }
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('userInput');
+            const text = input.value.trim();
+            if (!text) return;
+
+            appendMessage(text, 'user');
+            respondTo(text.toLowerCase());
+            input.value = '';
+        }
+
+        function appendMessage(text, type) {
+            const msg = document.createElement('div');
+            msg.className = type;
+            msg.innerText = text;
+            document.getElementById('chat-messages').appendChild(msg);
+        }
+
+        function respondTo(text) {
+            let response = "I'm not sure how to answer that.";
+            if (text.includes('course')) response = "We offer Spoken English, Web Development & Job Readiness courses.";
+            else if (text.includes('fee')) response = "Please contact +91 9053555591 for fee details.";
+            else if (text.includes('hello') || text.includes('hi')) response = "Hello! How can I help you today?";
+            appendMessage(response, 'bot');
+        }
+    </script>
+
+
+</body>
+
+</html>
